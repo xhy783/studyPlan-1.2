@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>instruction</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-container">
+                <div class="logo">
+                    <p>学期计划制作</p>
+                 </div>            
+            <div class="menu">
+                <ul>
+                    <li><a href="./index.html">计划主页</a></li>
+                    <li><a href="./create.html">制作计划</a></li>
+                    <li><a href="./instruction.html">软件说明</a></li>
+                </ul>
+            </div>
+            <div class="login">
+                <a href="./server.html">后台管理</a>
+                <a href="./model.html">模板更改</a>
+            </div>
+        </div>
+
+
+    </div>
+    
+
+    <div class="page-content">
+
+
+        <div class="index-instruction-section">
+                    <div class="index-instruction-content">
+                    <p class="heading">说明：
+                        </p><p>
+                        （1.0）版本使用教程
+                    </p>
+                    <p>
+                        使用条件：金数据家长选了成绩范围，不需要人工判定。
+                    </p>
+                    <p>
+                        1.请将金数据下载为csv文件到本地
+                    </p><p>
+                    2. 点击“制作计划”       
+                </p><p>
+                    3.点击Click to upload，选择刚刚下载的csv文件后点击Generate。显示success提示后会自动下载计划的zip压缩包，本地解压即可。                
+                </p>
+                <p>
+                    Tips：金数据下载文件时一定要选择下载csv文件，并且选择下载全部列！！！
+                </p>
+                <p>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="./server.html">点此查看更多说明</a>
+                </p>
+                <p>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://123.56.217.160:3000/">点此打开暑假计划</a>
+                </p>
+                <ul>
+
+                    <img src="assets/img/jin.png" alt="jin" width="245" height="280">
+                </ul>
+                </div>
+                          
+        </div>
+
+    </div>
+
+        <div class="footer-notice">
+            V1.2 学期计划专用        </div>
+        
+                    
+    </div>
+<script>    document.addEventListener('DOMContentLoaded', function() {
+    var saveButton = document.getElementById('Trip');
+
+    saveButton.addEventListener('click', function() {
+        window.location.href = 'package.html';
+    });
+});
+</script>
+<script>
+    function uploadFile() {
+        var fileInput = document.getElementById('fileToUpload');
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append('fileToUpload', file);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'upload', true);
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(new Blob([xhr.response], {type: 'application/zip'}));
+                link.download = 'processed_files.zip';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                document.getElementById('status').innerText = 'File uploaded and processed successfully!';
+            } else {
+                document.getElementById('status').innerText = 'File upload failed!';
+            }
+        };
+
+        xhr.responseType = 'blob';
+        xhr.send(formData);
+    }
+</script>
+
+
+
+</body>
+</html>
+
+
