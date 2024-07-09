@@ -14,7 +14,7 @@
     <div class="header">
         <div class="header-container">
                 <div class="logo">
-                    <p>学期计划制作</p>
+                    <img src="assets/img/学期系统500x200.png" alt="logo" width="150" height="60">
                  </div>            
             <div class="menu">
                 <ul>
@@ -95,42 +95,52 @@
         
                     
     </div>
-<script>    document.addEventListener('DOMContentLoaded', function() {
-    var saveButton = document.getElementById('Trip');
 
-    saveButton.addEventListener('click', function() {
-        window.location.href = 'package.html';
-    });
-});
-</script>
-<script>
-    function uploadFile() {
-        var fileInput = document.getElementById('fileToUpload');
-        var file = fileInput.files[0];
-        var formData = new FormData();
-        formData.append('fileToUpload', file);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'upload', true);
-
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(new Blob([xhr.response], {type: 'application/zip'}));
-                link.download = 'processed_files.zip';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                document.getElementById('status').innerText = 'File uploaded and processed successfully!';
-            } else {
-                document.getElementById('status').innerText = 'File upload failed!';
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var fileInput = document.getElementById('fileToUpload');
+            var statusElement = document.getElementById('status');
+            var downloadLink = null;
+    
+            fileInput.addEventListener('change', function() {
+                var file = fileInput.files[0];
+                if (file) {
+                    statusElement.innerText = 'File uploaded successfully!';
+                }
+            });
+    
+            window.uploadFile = function() {
+                var file = fileInput.files[0];
+                if (!file) {
+                    alert('Please select a file first.');
+                    return;
+                }
+    
+                var formData = new FormData();
+                formData.append('fileToUpload', file);
+    
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'upload', true);
+    
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        downloadLink = document.createElement('a');
+                        downloadLink.href = window.URL.createObjectURL(new Blob([xhr.response], {type: 'application/zip'}));
+                        downloadLink.download = 'processed_files.zip';
+                        statusElement.innerText = 'File generated successfully!';
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+                    } else {
+                        statusElement.innerText = 'File upload or processing failed!';
+                    }
+                };
+    
+                xhr.responseType = 'blob';
+                xhr.send(formData);
             }
-        };
-
-        xhr.responseType = 'blob';
-        xhr.send(formData);
-    }
-</script>
+        });
+    </script>
 
 
 
